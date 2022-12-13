@@ -32,7 +32,7 @@ function convCurr(inCurr, outCurr, rateArray) {
     return null
   }
   
-  
+  // this is the original structure of the exchange rates file
   rates = [
     { from: "EUR", to: "GBP", rate: 1.2 },
     { from: "GBP", to: "BRL" , rate: 5.5},
@@ -40,6 +40,23 @@ function convCurr(inCurr, outCurr, rateArray) {
     { from: "USD", to : "AUS", rate: 1.46 }
   ]
   
+  const ratesMap = {}
+  for ( const rate of rates) {
+    ratesMap[rate.from] = {[rate.to] : rate.rate } 
+    ratesMap[rate.to]= { [rate.from] : 1/rate.rate }
+
+  }
+   
+  for ( const  fromCurr of Object.keys(ratesMap) ){
+    for ( const [ toCurr, rate  ] of Object.entries(ratesMap[fromCurr])) {
+        console.log(`from ${fromCurr} to ${toCurr} rate is ${rate.toFixed(4)}`)
+    }
+  }
+
+  // object ratesMap now contains all the exchange rates and their inverses
+
+
+
   console.log(convCurr('USD', 'EUR', rates))
   
   console.log(convCurr('USD', 'GBP', rates))
